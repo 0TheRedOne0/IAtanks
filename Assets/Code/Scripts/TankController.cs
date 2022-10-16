@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 
 using UnityEngine.UI;
 
@@ -14,6 +15,10 @@ public class TankController : MonoBehaviour
     public float HP = 5f;
     public float maxHP = 5f;
     public Image barraHP;
+    public const int vidaTotal = 5;
+    //[SyncVar (hook = "CambioVida")] public int vidaActual = vidaTotal;
+
+    public int vidaActual;
 
     public float curSpeed, targetSpeed;
     public float rotSpeed = 150.0f;
@@ -24,8 +29,9 @@ public class TankController : MonoBehaviour
 
     private float elapsedTime;
 
-    void OnEndGame()
-    {
+    PhotonView view;
+
+    void OnEndGame() {
         // Don't allow any more control changes when the game ends
         this.enabled = false;
     }
@@ -33,16 +39,24 @@ public class TankController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        view = GetComponent<PhotonView>();
 
+        if (view.IsMine)
+        {
+            vidaActual = vidaTotal;
+            FindObjectOfType<PhotonCamera>().setTarget(this.gameObject);
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
-        UpdateControl();
-        UpdateWeapon();
-        HPmanagement();
-
+        if (view.IsMine)
+        {
+            UpdateControl();
+            UpdateWeapon();
+            HPmanagement();
+        }
     }
 
     void HPmanagement()
@@ -87,7 +101,8 @@ public class TankController : MonoBehaviour
         transform.Translate(Vector3.forward * Time.deltaTime * curSpeed);
     }
 
-    void UpdateWeapon()
+
+    void UpdateWeapon() 
     {
         elapsedTime += Time.deltaTime;
         if (Input.GetMouseButtonDown(0))
@@ -98,25 +113,38 @@ public class TankController : MonoBehaviour
                 elapsedTime = 0.0f;
 
                 //Also Instantiate over the PhotonNetwork
-                Instantiate(bullet, bulletSpawnPoint.transform.position, bulletSpawnPoint.transform.rotation);
+                PhotonNetwork.Instantiate(bullet.name, bulletSpawnPoint.transform.position, bulletSpawnPoint.transform.rotation);
             }
         }
     }
 
+
+    void Die()
+    {
+        if (view.IsMine)
+        {
+            transform.position =  FindObjectOfType<PlayerSpawn>().Respawn();
+        }
+    }
+
+
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.CompareTag("Bullet"))
+        if (view.IsMine)
         {
-
-            HP--;
-            if (HP <= 0)
+            if (collision.gameObject.CompareTag("Bullet"))
             {
-                Destroy(this.gameObject);
+                vidaActual--;
+
+                if (vidaActual <= 0)
+                {
+
+                    vidaActual = vidaTotal;
+
+                    Die();
+                }
+
             }
-
-
-
-
         }
     }
 
