@@ -2,13 +2,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+using UnityEngine.UI;
+
 public class TankController : MonoBehaviour
 {
     public GameObject bullet;
     public GameObject turret;
     public GameObject bulletSpawnPoint;
 
-    int HP = 5;
+    //Elementos para manejar el HP
+    public float HP = 5f;
+    public float maxHP = 5f;
+    public Image barraHP;
 
     public float curSpeed, targetSpeed;
     public float rotSpeed = 150.0f;
@@ -19,7 +24,8 @@ public class TankController : MonoBehaviour
 
     private float elapsedTime;
 
-    void OnEndGame() {
+    void OnEndGame()
+    {
         // Don't allow any more control changes when the game ends
         this.enabled = false;
     }
@@ -27,7 +33,7 @@ public class TankController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame
@@ -35,9 +41,16 @@ public class TankController : MonoBehaviour
     {
         UpdateControl();
         UpdateWeapon();
+        HPmanagement();
+
     }
 
-    void UpdateControl() 
+    void HPmanagement()
+    {
+        barraHP.fillAmount = HP / maxHP; 
+    }
+
+    void UpdateControl()
     {
         // Generate a plane that intersects the transform's position with an upwards normal.
         Plane playerPlane = new Plane(Vector3.up, transform.position);
@@ -48,7 +61,7 @@ public class TankController : MonoBehaviour
         // Determine the point where the cursor ray intersects the plane.
 
         // If the ray is parallel to the plane, Raycast will return false.
-        if (playerPlane.Raycast(rayCast, out var hitDist)) 
+        if (playerPlane.Raycast(rayCast, out var hitDist))
         {
             // Get the point along the ray that hits the calculated distance.
             Vector3 rayHitPoint = rayCast.GetPoint(hitDist);
@@ -57,7 +70,7 @@ public class TankController : MonoBehaviour
             turret.transform.rotation = Quaternion.Slerp(turret.transform.rotation, targetRotation, Time.deltaTime * turretRotSpeed);
         }
 
-        if (Input.GetKey(KeyCode.W)) 
+        if (Input.GetKey(KeyCode.W))
             targetSpeed = maxForwardSpeed;
         else if (Input.GetKey(KeyCode.S))
             targetSpeed = maxBackwardSpeed;
@@ -74,12 +87,12 @@ public class TankController : MonoBehaviour
         transform.Translate(Vector3.forward * Time.deltaTime * curSpeed);
     }
 
-    void UpdateWeapon() 
+    void UpdateWeapon()
     {
         elapsedTime += Time.deltaTime;
-        if (Input.GetMouseButtonDown(0)) 
+        if (Input.GetMouseButtonDown(0))
         {
-            if (elapsedTime >= shootRate) 
+            if (elapsedTime >= shootRate)
             {
                 //Reset the time
                 elapsedTime = 0.0f;
@@ -101,9 +114,18 @@ public class TankController : MonoBehaviour
                 Destroy(this.gameObject);
             }
 
-           
-            
 
+
+
+        }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.tag == "Heart")
+        {
+
+            HP++;
         }
     }
 }
