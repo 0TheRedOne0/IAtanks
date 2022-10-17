@@ -74,7 +74,7 @@ public class TankController : MonoBehaviour
         Ray rayCast = Camera.main.ScreenPointToRay(Input.mousePosition);
 
         // Determine the point where the cursor ray intersects the plane.
-
+        /*
         // If the ray is parallel to the plane, Raycast will return false.
         if (playerPlane.Raycast(rayCast, out var hitDist))
         {
@@ -83,7 +83,12 @@ public class TankController : MonoBehaviour
 
             Quaternion targetRotation = Quaternion.LookRotation(rayHitPoint - transform.position);
             turret.transform.rotation = Quaternion.Slerp(turret.transform.rotation, targetRotation, Time.deltaTime * turretRotSpeed);
-        }
+        }*/
+
+        if (Input.GetKey(KeyCode.E))
+            turret.transform.Rotate(0, 5, 0);
+        else if (Input.GetKey(KeyCode.Q))
+            turret.transform.Rotate(0, -5, 0);
 
         if (Input.GetKey(KeyCode.W))
             targetSpeed = maxForwardSpeed;

@@ -60,9 +60,9 @@ MonoBehaviour:
   curSpeed: 0
   targetSpeed: 0
   rotSpeed: 30
-  turretRotSpeed: 10
-  maxForwardSpeed: 10
-  maxBackwardSpeed: -15
+  turretRotSpeed: 5
+  maxForwardSpeed: 5
+  maxBackwardSpeed: -5
   shootRate: 0.5
 --- !u!54 &2271679292463979613
 Rigidbody:
@@ -113,7 +113,6 @@ MonoBehaviour:
   observableSearch: 2
   ObservedComponents:
   - {fileID: -8088735343114143858}
-  - {fileID: 6569244756297059949}
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
@@ -317,7 +316,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6147731165908858676}
-  m_LocalRotation: {x: -0, y: -0.08820351, z: -0, w: 0.99610245}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -0.074, y: 0.43, z: -0.007}
   m_LocalScale: {x: 2.54, y: 2.54, z: 2.54}
   m_ConstrainProportionsScale: 0
@@ -325,7 +324,7 @@ Transform:
   - {fileID: 4008742702336861466}
   m_Father: {fileID: 2271679292463979614}
   m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: -10.121, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &6569244756297059949
 MonoBehaviour:
   m_ObjectHideFlags: 0
