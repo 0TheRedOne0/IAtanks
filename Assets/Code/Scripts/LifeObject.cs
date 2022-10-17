@@ -10,11 +10,19 @@ public class LifeObject : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         if (other.tag == "Tank")
+        {
+
+            this.gameObject.SetActive(false);
+            Invoke("Reactivar",3f);
+        }
 
 
-            Destroy(gameObject);
+    }
 
-    } 
+    void Reactivar()
+    {
+        this.gameObject.SetActive(true);
+    }
 
 
     }

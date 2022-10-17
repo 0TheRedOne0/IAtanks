@@ -129,22 +129,7 @@ public class TankController : MonoBehaviour
     }
 
 
-    private void OnCollisionEnter(Collision collision)
-    {
-        if (collision.gameObject.CompareTag("Bullet"))
-        {
-            HP--;
-
-            if (HP <= 0)
-            {
-
-                HP = maxHP;
-
-                Die();
-            }
-
-        }
-    }
+   
 
     private void OnTriggerEnter(Collider other)
     {
@@ -152,6 +137,25 @@ public class TankController : MonoBehaviour
         {
 
             HP++;
+            
+            
+        }
+
+        if (view.IsMine)
+        {
+            if (other.tag =="Bullet")
+            {
+                HP--;
+
+                if (HP <= 0)
+                {
+
+                    HP = maxHP;
+
+                    Die();
+                }
+
+            }
         }
     }
 }
