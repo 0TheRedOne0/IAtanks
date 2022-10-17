@@ -135,12 +135,12 @@ public class TankController : MonoBehaviour
         {
             if (collision.gameObject.CompareTag("Bullet"))
             {
-                vidaActual--;
+                HP--;
 
-                if (vidaActual <= 0)
+                if (HP <= 0)
                 {
 
-                    vidaActual = vidaTotal;
+                    HP = maxHP;
 
                     Die();
                 }
