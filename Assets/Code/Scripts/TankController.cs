@@ -44,6 +44,7 @@ public class TankController : MonoBehaviour
         if (view.IsMine)
         {
             vidaActual = vidaTotal;
+            barraHP = GameObject.Find("Vida").GetComponent<Image>();
             FindObjectOfType<PhotonCamera>().setTarget(this.gameObject);
         }
     }

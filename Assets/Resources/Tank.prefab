@@ -53,6 +53,9 @@ MonoBehaviour:
   bullet: {fileID: 5512321803092707746, guid: 07f2c6ed9fd64114ea5495ec5e93efaa, type: 3}
   turret: {fileID: 6147731165908858676}
   bulletSpawnPoint: {fileID: 2271679292778548283}
+  HP: 5
+  maxHP: 5
+  barraHP: {fileID: 0}
   vidaActual: 0
   curSpeed: 0
   targetSpeed: 0
