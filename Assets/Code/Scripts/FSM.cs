@@ -44,9 +44,27 @@ public class FSM : MonoBehaviour
 
     }
 
+    Transform getplayer()
+    {
+        Transform r = transform;
+        float dist = Mathf.Infinity;
+        foreach(GameObject ob in GameObject.FindGameObjectsWithTag("Tank"))
+        {
+            float newDist = Vector3.Distance(transform.position, ob.transform.position);
+            if( newDist < dist)
+            {
+                dist = newDist;
+                r = ob.transform;
+            }
+        }
+
+        return r;
+    }
+
     // Update is called once per frame
     void Update()
     {
+        playerTransform = getplayer();
         switch (currentState)
         {
             case FSMStates.Patrol:
